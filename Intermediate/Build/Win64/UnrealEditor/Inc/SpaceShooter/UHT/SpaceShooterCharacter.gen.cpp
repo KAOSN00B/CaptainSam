@@ -12,10 +12,12 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeSpaceShooterCharacter() {}
 
 // ********** Begin Cross Module References ********************************************************
+COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 ENGINE_API UClass* Z_Construct_UClass_ACharacter();
 ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputAction_NoRegister();
+SPACESHOOTER_API UClass* Z_Construct_UClass_AGun_NoRegister();
 SPACESHOOTER_API UClass* Z_Construct_UClass_ASpaceShooterCharacter();
 SPACESHOOTER_API UClass* Z_Construct_UClass_ASpaceShooterCharacter_NoRegister();
 UPackage* Z_Construct_UPackage__Script_SpaceShooter();
@@ -28,11 +30,11 @@ struct Z_Construct_UFunction_ASpaceShooterCharacter_DoJumpEnd_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
 		{ "Category", "Input" },
 #if !UE_BUILD_SHIPPING
-		{ "Comment", "/** Handles jump pressed inputs from either controls or UI interfaces */" },
+		{ "Comment", "/** Handles jump released inputs from either controls or UI interfaces */" },
 #endif
 		{ "ModuleRelativePath", "SpaceShooterCharacter.h" },
 #if !UE_BUILD_SHIPPING
-		{ "ToolTip", "Handles jump pressed inputs from either controls or UI interfaces" },
+		{ "ToolTip", "Handles jump released inputs from either controls or UI interfaces" },
 #endif
 	};
 #endif // WITH_METADATA
@@ -246,15 +248,9 @@ struct Z_Construct_UClass_ASpaceShooterCharacter_Statics
 {
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "/**\n *  A simple player-controllable third person character\n *  Implements a controllable orbiting camera\n */" },
-#endif
 		{ "HideCategories", "Navigation" },
 		{ "IncludePath", "SpaceShooterCharacter.h" },
 		{ "ModuleRelativePath", "SpaceShooterCharacter.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "A simple player-controllable third person character\nImplements a controllable orbiting camera" },
-#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CameraBoom_MetaData[] = {
 		{ "AllowPrivateAccess", "true" },
@@ -320,6 +316,35 @@ struct Z_Construct_UClass_ASpaceShooterCharacter_Statics
 		{ "ToolTip", "Mouse Look Input Action" },
 #endif
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ShootAction_MetaData[] = {
+		{ "Category", "Input" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "/** Shoot Input Action */" },
+#endif
+		{ "ModuleRelativePath", "SpaceShooterCharacter.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Shoot Input Action" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GunClass_MetaData[] = {
+		{ "Category", "Weapon" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "/** Gun class to spawn, usually assigned in the Player Blueprint */" },
+#endif
+		{ "ModuleRelativePath", "SpaceShooterCharacter.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Gun class to spawn, usually assigned in the Player Blueprint" },
+#endif
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_Gun_MetaData[] = {
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "/** Currently equipped gun instance */" },
+#endif
+		{ "ModuleRelativePath", "SpaceShooterCharacter.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Currently equipped gun instance" },
+#endif
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CameraBoom;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_FollowCamera;
@@ -327,10 +352,13 @@ struct Z_Construct_UClass_ASpaceShooterCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MoveAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_LookAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MouseLookAction;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ShootAction;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_GunClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_Gun;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
-		{ &Z_Construct_UFunction_ASpaceShooterCharacter_DoJumpEnd, "DoJumpEnd" }, // 3409308524
+		{ &Z_Construct_UFunction_ASpaceShooterCharacter_DoJumpEnd, "DoJumpEnd" }, // 3957290770
 		{ &Z_Construct_UFunction_ASpaceShooterCharacter_DoJumpStart, "DoJumpStart" }, // 3897434790
 		{ &Z_Construct_UFunction_ASpaceShooterCharacter_DoLook, "DoLook" }, // 2151164449
 		{ &Z_Construct_UFunction_ASpaceShooterCharacter_DoMove, "DoMove" }, // 4254578999
@@ -341,12 +369,15 @@ struct Z_Construct_UClass_ASpaceShooterCharacter_Statics
 	};
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_CameraBoom = { "CameraBoom", nullptr, (EPropertyFlags)0x00400000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, CameraBoom), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CameraBoom_MetaData), NewProp_CameraBoom_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_FollowCamera = { "FollowCamera", nullptr, (EPropertyFlags)0x00400000000a001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, FollowCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FollowCamera_MetaData), NewProp_FollowCamera_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_JumpAction = { "JumpAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, JumpAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_JumpAction_MetaData), NewProp_JumpAction_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MoveAction = { "MoveAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, MoveAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MoveAction_MetaData), NewProp_MoveAction_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_LookAction = { "LookAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, LookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LookAction_MetaData), NewProp_LookAction_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MouseLookAction = { "MouseLookAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, MouseLookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MouseLookAction_MetaData), NewProp_MouseLookAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_CameraBoom = { "CameraBoom", nullptr, (EPropertyFlags)0x01440000000a001d, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, CameraBoom), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CameraBoom_MetaData), NewProp_CameraBoom_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_FollowCamera = { "FollowCamera", nullptr, (EPropertyFlags)0x01440000000a001d, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, FollowCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FollowCamera_MetaData), NewProp_FollowCamera_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_JumpAction = { "JumpAction", nullptr, (EPropertyFlags)0x0124080000000015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, JumpAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_JumpAction_MetaData), NewProp_JumpAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MoveAction = { "MoveAction", nullptr, (EPropertyFlags)0x0124080000000015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, MoveAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MoveAction_MetaData), NewProp_MoveAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_LookAction = { "LookAction", nullptr, (EPropertyFlags)0x0124080000000015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, LookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LookAction_MetaData), NewProp_LookAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MouseLookAction = { "MouseLookAction", nullptr, (EPropertyFlags)0x0124080000000015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, MouseLookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MouseLookAction_MetaData), NewProp_MouseLookAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_ShootAction = { "ShootAction", nullptr, (EPropertyFlags)0x0124080000000015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, ShootAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ShootAction_MetaData), NewProp_ShootAction_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_GunClass = { "GunClass", nullptr, (EPropertyFlags)0x0024080000010015, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, GunClass), Z_Construct_UClass_UClass, Z_Construct_UClass_AGun_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GunClass_MetaData), NewProp_GunClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_Gun = { "Gun", nullptr, (EPropertyFlags)0x0124080000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterCharacter, Gun), Z_Construct_UClass_AGun_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Gun_MetaData), NewProp_Gun_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASpaceShooterCharacter_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_CameraBoom,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_FollowCamera,
@@ -354,6 +385,9 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASpaceSho
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MoveAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_LookAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_MouseLookAction,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_ShootAction,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_GunClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterCharacter_Statics::NewProp_Gun,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ASpaceShooterCharacter_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_ASpaceShooterCharacter_Statics::DependentSingletons[])() = {
@@ -392,10 +426,10 @@ ASpaceShooterCharacter::~ASpaceShooterCharacter() {}
 struct Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterCharacter_h__Script_SpaceShooter_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASpaceShooterCharacter, ASpaceShooterCharacter::StaticClass, TEXT("ASpaceShooterCharacter"), &Z_Registration_Info_UClass_ASpaceShooterCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASpaceShooterCharacter), 3843834746U) },
+		{ Z_Construct_UClass_ASpaceShooterCharacter, ASpaceShooterCharacter::StaticClass, TEXT("ASpaceShooterCharacter"), &Z_Registration_Info_UClass_ASpaceShooterCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASpaceShooterCharacter), 1775537227U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterCharacter_h__Script_SpaceShooter_2538924124(TEXT("/Script/SpaceShooter"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterCharacter_h__Script_SpaceShooter_1657344997(TEXT("/Script/SpaceShooter"),
 	Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterCharacter_h__Script_SpaceShooter_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterCharacter_h__Script_SpaceShooter_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

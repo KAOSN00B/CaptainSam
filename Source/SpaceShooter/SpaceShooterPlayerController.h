@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "HUDWidget.h"
 #include "SpaceShooterPlayerController.generated.h"
 
 class UInputMappingContext;
@@ -35,10 +36,18 @@ protected:
 	/** Pointer to the mobile controls widget */
 	TObjectPtr<UUserWidget> MobileControlsWidget;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UHUDWidget> HUDWidgetClass;
+
+	UPROPERTY(VisibleAnywhere)
+	UHUDWidget* HUDWidget;
+
 	/** Gameplay initialization */
 	virtual void BeginPlay() override;
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
+
+
 
 };

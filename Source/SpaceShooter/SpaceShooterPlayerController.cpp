@@ -31,6 +31,12 @@ void ASpaceShooterPlayerController::BeginPlay()
 		}
 
 	}
+
+	HUDWidget = CreateWidget<UHUDWidget>(this, HUDWidgetClass);
+	if (HUDWidget)
+	{
+		HUDWidget->AddToViewport();
+	}
 }
 
 void ASpaceShooterPlayerController::SetupInputComponent()
@@ -59,3 +65,5 @@ void ASpaceShooterPlayerController::SetupInputComponent()
 		}
 	}
 }
+
+

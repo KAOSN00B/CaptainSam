@@ -17,6 +17,7 @@ ENGINE_API UClass* Z_Construct_UClass_APlayerController();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputMappingContext_NoRegister();
 SPACESHOOTER_API UClass* Z_Construct_UClass_ASpaceShooterPlayerController();
 SPACESHOOTER_API UClass* Z_Construct_UClass_ASpaceShooterPlayerController_NoRegister();
+SPACESHOOTER_API UClass* Z_Construct_UClass_UHUDWidget_NoRegister();
 UMG_API UClass* Z_Construct_UClass_UUserWidget_NoRegister();
 UPackage* Z_Construct_UPackage__Script_SpaceShooter();
 // ********** End Cross Module References **********************************************************
@@ -98,12 +99,23 @@ struct Z_Construct_UClass_ASpaceShooterPlayerController_Statics
 		{ "ToolTip", "Mobile controls widget to spawn" },
 #endif
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HUDWidgetClass_MetaData[] = {
+		{ "Category", "SpaceShooterPlayerController" },
+		{ "ModuleRelativePath", "SpaceShooterPlayerController.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HUDWidget_MetaData[] = {
+		{ "Category", "SpaceShooterPlayerController" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "SpaceShooterPlayerController.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_DefaultMappingContexts_Inner;
 	static const UECodeGen_Private::FArrayPropertyParams NewProp_DefaultMappingContexts;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MobileExcludedMappingContexts_Inner;
 	static const UECodeGen_Private::FArrayPropertyParams NewProp_MobileExcludedMappingContexts;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_MobileControlsWidgetClass;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_HUDWidgetClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HUDWidget;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -116,12 +128,16 @@ const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_ASpaceShooterPl
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileExcludedMappingContexts_Inner = { "MobileExcludedMappingContexts", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UClass_UInputMappingContext_NoRegister, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileExcludedMappingContexts = { "MobileExcludedMappingContexts", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterPlayerController, MobileExcludedMappingContexts), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MobileExcludedMappingContexts_MetaData), NewProp_MobileExcludedMappingContexts_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileControlsWidgetClass = { "MobileControlsWidgetClass", nullptr, (EPropertyFlags)0x0024080000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterPlayerController, MobileControlsWidgetClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UUserWidget_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MobileControlsWidgetClass_MetaData), NewProp_MobileControlsWidgetClass_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_HUDWidgetClass = { "HUDWidgetClass", nullptr, (EPropertyFlags)0x0024080000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterPlayerController, HUDWidgetClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UHUDWidget_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HUDWidgetClass_MetaData), NewProp_HUDWidgetClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_HUDWidget = { "HUDWidget", nullptr, (EPropertyFlags)0x00200800000a0009, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ASpaceShooterPlayerController, HUDWidget), Z_Construct_UClass_UHUDWidget_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HUDWidget_MetaData), NewProp_HUDWidget_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ASpaceShooterPlayerController_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_DefaultMappingContexts_Inner,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_DefaultMappingContexts,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileExcludedMappingContexts_Inner,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileExcludedMappingContexts,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_MobileControlsWidgetClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_HUDWidgetClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASpaceShooterPlayerController_Statics::NewProp_HUDWidget,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_ASpaceShooterPlayerController_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_ASpaceShooterPlayerController_Statics::DependentSingletons[])() = {
@@ -161,10 +177,10 @@ ASpaceShooterPlayerController::~ASpaceShooterPlayerController() {}
 struct Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterPlayerController_h__Script_SpaceShooter_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ASpaceShooterPlayerController, ASpaceShooterPlayerController::StaticClass, TEXT("ASpaceShooterPlayerController"), &Z_Registration_Info_UClass_ASpaceShooterPlayerController, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASpaceShooterPlayerController), 1523992732U) },
+		{ Z_Construct_UClass_ASpaceShooterPlayerController, ASpaceShooterPlayerController::StaticClass, TEXT("ASpaceShooterPlayerController"), &Z_Registration_Info_UClass_ASpaceShooterPlayerController, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ASpaceShooterPlayerController), 1209306402U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterPlayerController_h__Script_SpaceShooter_1411951942(TEXT("/Script/SpaceShooter"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterPlayerController_h__Script_SpaceShooter_2247173499(TEXT("/Script/SpaceShooter"),
 	Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterPlayerController_h__Script_SpaceShooter_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_SpaceShooterPlayerController_h__Script_SpaceShooter_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
