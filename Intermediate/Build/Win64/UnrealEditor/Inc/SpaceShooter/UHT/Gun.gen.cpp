@@ -85,12 +85,17 @@ struct Z_Construct_UClass_AGun_Statics
 		{ "Category", "Gun" },
 		{ "ModuleRelativePath", "Gun.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BulletDamage_MetaData[] = {
+		{ "Category", "Gun" },
+		{ "ModuleRelativePath", "Gun.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_SceneRoot;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Mesh;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_MaxRange;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MuzzleFlashParticleSystem;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ImpactParticleSystem;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_BulletDamage;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -103,12 +108,14 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AGun_Statics::
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AGun_Statics::NewProp_MaxRange = { "MaxRange", nullptr, (EPropertyFlags)0x0010000000000001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AGun, MaxRange), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxRange_MetaData), NewProp_MaxRange_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AGun_Statics::NewProp_MuzzleFlashParticleSystem = { "MuzzleFlashParticleSystem", nullptr, (EPropertyFlags)0x00100000000a0009, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AGun, MuzzleFlashParticleSystem), Z_Construct_UClass_UNiagaraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MuzzleFlashParticleSystem_MetaData), NewProp_MuzzleFlashParticleSystem_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AGun_Statics::NewProp_ImpactParticleSystem = { "ImpactParticleSystem", nullptr, (EPropertyFlags)0x0010000000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AGun, ImpactParticleSystem), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ImpactParticleSystem_MetaData), NewProp_ImpactParticleSystem_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AGun_Statics::NewProp_BulletDamage = { "BulletDamage", nullptr, (EPropertyFlags)0x0010000000000001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AGun, BulletDamage), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BulletDamage_MetaData), NewProp_BulletDamage_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AGun_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_SceneRoot,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_Mesh,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_MaxRange,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_MuzzleFlashParticleSystem,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_ImpactParticleSystem,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AGun_Statics::NewProp_BulletDamage,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_AGun_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_AGun_Statics::DependentSingletons[])() = {
@@ -147,10 +154,10 @@ AGun::~AGun() {}
 struct Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_Gun_h__Script_SpaceShooter_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_AGun, AGun::StaticClass, TEXT("AGun"), &Z_Registration_Info_UClass_AGun, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AGun), 3457337367U) },
+		{ Z_Construct_UClass_AGun, AGun::StaticClass, TEXT("AGun"), &Z_Registration_Info_UClass_AGun, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AGun), 3881521589U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_Gun_h__Script_SpaceShooter_1824170948(TEXT("/Script/SpaceShooter"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_Gun_h__Script_SpaceShooter_891642174(TEXT("/Script/SpaceShooter"),
 	Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_Gun_h__Script_SpaceShooter_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Users_rober_Documents_Unreal_Projects_SpaceShooter_Source_SpaceShooter_Gun_h__Script_SpaceShooter_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

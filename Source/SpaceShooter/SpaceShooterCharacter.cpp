@@ -49,20 +49,13 @@ void ASpaceShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!GunClass)
-	{
-		UE_LOG(LogSpaceShooter, Warning, TEXT("GunClass is not assigned on %s."), *GetName());
-		return;
-	}
+	CurrentHealth = MaxHealth;
+
+	OnTakeAnyDamage.AddDynamic(this, &ASpaceShooterCharacter::OnDamageTaken);
+
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
-
-	if (!Gun)
-	{
-		UE_LOG(LogSpaceShooter, Error, TEXT("Failed to spawn gun for %s."), *GetName());
-		return;
-	}
-
+	Gun->OwnerController = GetController();
 	if (Gun)
 	{
 		Gun->SetOwner(this);
@@ -164,6 +157,28 @@ void ASpaceShooterCharacter::DoJumpStart()
 void ASpaceShooterCharacter::DoJumpEnd()
 {
 	StopJumping();
+}
+
+void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
+	AController* InstigatedBy, AActor* DamageCauser)
+{
+
+	if (IsAlive)
+	{
+		CurrentHealth -= Damage;
+		UE_LOG(LogTemp, Display, TEXT("Damage: %.2f"), Damage);
+		UE_LOG(LogTemp, Display, TEXT("Current Health: %.2f"), CurrentHealth);
+		if (CurrentHealth <= 0.0f)
+		{
+
+			IsAlive = false;
+			CurrentHealth = 0.0f;
+
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			UE_LOG(LogTemp, Display, TEXT("Character is dead."));
+		}
+	}
 }
 
 void ASpaceShooterCharacter::Shoot()

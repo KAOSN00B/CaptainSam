@@ -47,6 +47,12 @@
     <ClInclude Include="..\..\Source\SpaceShooter\HUDWidget.h">
       <Filter>Source\SpaceShooter</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\SpaceShooter\ShooterAI.cpp">
+      <Filter>Source\SpaceShooter</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\SpaceShooter\ShooterAI.h">
+      <Filter>Source\SpaceShooter</Filter>
+    </ClInclude>
     <None Include="..\..\Source\SpaceShooter\SpaceShooter.Build.cs">
       <Filter>Source\SpaceShooter</Filter>
     </None>

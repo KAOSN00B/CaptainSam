@@ -57,8 +57,12 @@ protected:
 	TSubclassOf<AGun> GunClass;
 
 	/** Currently equipped gun instance */
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TObjectPtr<AGun> Gun;
+
+
+
+
 
 public:
 
@@ -105,4 +109,17 @@ public:
 
 	/** Returns FollowCamera subobject */
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UFUNCTION()
+	void OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+		class AController* InstigatedBy, AActor* DamageCauser);
+
+	UPROPERTY(EditAnywhere)
+	float MaxHealth = 100.0f;
+
+	
+	float CurrentHealth;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool IsAlive = true;
 };

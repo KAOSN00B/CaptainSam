@@ -40,7 +40,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* ImpactParticleSystem;
-
+	
+	UPROPERTY(EditAnywhere)
+	float BulletDamage = 10.0f;
 
 
 	// Called every frame
