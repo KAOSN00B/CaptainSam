@@ -20,6 +20,8 @@ class ASpaceShooterCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	friend class UBTTaskNodeShootAtPlayer;
+
 private:
 
 	/** Camera boom positioning the camera behind the character */
@@ -85,6 +87,8 @@ protected:
 
 	/** Called when shoot input is pressed */
 	void Shoot();
+
+	void UpdateHUD();
 
 public:
 

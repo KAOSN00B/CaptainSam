@@ -44,6 +44,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float BulletDamage = 10.0f;
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* ShootSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* ImpactSound;
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

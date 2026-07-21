@@ -11,6 +11,7 @@
 #include "Gun.h"
 #include "InputActionValue.h"
 #include "SpaceShooter.h"
+#include "SpaceShooterPlayerController.h"
 
 ASpaceShooterCharacter::ASpaceShooterCharacter()
 {
@@ -166,8 +167,7 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 	if (IsAlive)
 	{
 		CurrentHealth -= Damage;
-		UE_LOG(LogTemp, Display, TEXT("Damage: %.2f"), Damage);
-		UE_LOG(LogTemp, Display, TEXT("Current Health: %.2f"), CurrentHealth);
+		UpdateHUD();
 		if (CurrentHealth <= 0.0f)
 		{
 
@@ -175,9 +175,11 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 			CurrentHealth = 0.0f;
 
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			DetachFromControllerPendingDestroy();
 
-			UE_LOG(LogTemp, Display, TEXT("Character is dead."));
+
 		}
+		
 	}
 }
 
@@ -190,5 +192,16 @@ void ASpaceShooterCharacter::Shoot()
 	else
 	{
 		UE_LOG(LogSpaceShooter, Warning, TEXT("Shoot called, but Gun is null."));
+	}
+}
+
+void ASpaceShooterCharacter::UpdateHUD()
+{
+	ASpaceShooterPlayerController* PlayerController = Cast<ASpaceShooterPlayerController>(GetController());
+
+	if (PlayerController)
+	{
+		float NewPercent = CurrentHealth / MaxHealth;
+		PlayerController->HUDWidget->SetHealthPercent(NewPercent);
 	}
 }

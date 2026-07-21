@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "SpaceShooterCharacter.h"
 #include "ShooterAI.generated.h"
+
 /**
  * 
  */
@@ -13,7 +15,7 @@ class SPACESHOOTER_API AShooterAI : public AAIController
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	virtual void BeginPlay() override;
 
 
@@ -23,9 +25,13 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UBehaviorTree* EnemyAIBehaviorTree;
 
+	ASpaceShooterCharacter* PlayerCharacter;
+	ASpaceShooterCharacter* MyCharacter;
 
 public:
 
 	virtual void Tick(float DeltaTime) override;
+
+	void StartBehaviorTree(ASpaceShooterCharacter* Player);
 	
 };

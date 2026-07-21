@@ -35,6 +35,7 @@ protected:
 
 	/** Pointer to the mobile controls widget */
 	TObjectPtr<UUserWidget> MobileControlsWidget;
+public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UHUDWidget> HUDWidgetClass;

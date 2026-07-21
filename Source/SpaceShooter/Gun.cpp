@@ -44,6 +44,7 @@ void AGun::PullTrigger()
 	if (OwnerController)
 	{
 		MuzzleFlashParticleSystem->Activate(true);
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ShootSound, GetActorLocation());
 		FVector ViewLocation;
 		FRotator ViewRotation;
 		OwnerController->GetPlayerViewPoint(ViewLocation, ViewRotation);
@@ -64,18 +65,15 @@ void AGun::PullTrigger()
 				HitResult.ImpactPoint, HitResult.ImpactPoint.Rotation());
 
 			AActor* HitActor = HitResult.GetActor();
-			UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), *GetNameSafe(HitActor));
+			
 			if (HitActor)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("About to apply %.2f damage to %s"),
-					BulletDamage,
-					*GetNameSafe(HitActor)
-				);
+			
 
 				const float AppliedDamage = UGameplayStatics::ApplyDamage(HitActor, BulletDamage,
 					OwnerController, this, UDamageType::StaticClass());
-
-				UE_LOG(LogTemp, Warning, TEXT("ApplyDamage returned %.2f"), AppliedDamage);
+				//UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, HitResult.ImpactPoint);
+			
 			}
 			
 		}
