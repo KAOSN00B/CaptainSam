@@ -1,147 +1,94 @@
-Shooter Sam
-Shooter Sam is a third-person Unreal Engine shooter prototype built with a mix of C++ and Blueprints. The project focuses on core shooter mechanics: player movement, camera control, weapon attachment, line-trace shooting, hit detection, damage handling, basic enemy AI, and HUD integration.
+# SpaceShooter
 
-The goal of this project was to get hands-on experience with Unreal Engine's C++ gameplay framework while still using Blueprints for iteration, asset setup, UI, and editor-facing configuration.
+SpaceShooter is a third-person shooter project built in Unreal Engine 5. The game features AI enemies, shooting mechanics, health, HUD feedback, and behavior tree driven enemy logic.
 
-## Project Overview
+## Overview
 
-The player controls a third-person character in a sci-fi shooter environment. A rifle is spawned at runtime, attached to the character mesh, and used to fire line traces from the player's viewpoint. When a shot hits an actor, the gun spawns impact effects and applies damage through Unreal's gameplay damage system.
-
-Enemy behavior is set up using Unreal AI systems, including an AI controller and Behavior Tree assets. The project also includes HUD/UI assets and a sci-fi environment asset pack for prototyping.
+The player explores the level while fighting enemy guards. Enemies can detect the player, chase or investigate last known locations, shoot when they have a target, and return to their guard position when appropriate.
+<img width="1147" height="625" alt="Screenshot 2026-07-21 132523" src="https://github.com/user-attachments/assets/08275bda-a040-4645-9c78-43480bbf2baf" />
 
 ## Features
 
-- Third-person player character built in C++
-- Enhanced Input support for movement, looking, jumping, and shooting
-- Runtime weapon spawning and attachment to a character socket
-- Line-trace weapon firing from the player camera/viewpoint
-- Niagara muzzle flash and impact visual effects
-- Damage application using `UGameplayStatics::ApplyDamage`
-- Player health tracking and death state handling
-- Enemy AI controller with Behavior Tree support
-- HUD widget integration through UMG
-- Blueprint subclasses for player, rifle, game mode, controller, HUD, and AI setup
-- Sci-fi prototype environment and character animation assets
-
-## Tech Stack
-
-- Unreal Engine 5.6
-- C++
-- Blueprints
-- Enhanced Input
-- UMG
-- Niagara
-- Unreal AI / Behavior Trees
-- Visual Studio
-
-## Main Systems
-
-### Player Character
-
-The main player character is implemented in `ASpaceShooterCharacter`. It handles movement, looking, jumping, health, damage, death state, and shooting input.
-
-The character uses:
-
-- A capsule collision component
-- Character movement configuration
-- A spring arm camera boom
-- A follow camera
-- Enhanced Input bindings
-- A spawned weapon actor attached to `WeaponSocket`
-
-### Weapon System
-
-The gun is implemented as an `AGun` actor. When the player fires, the gun:
-
-- Activates a muzzle flash effect
-- Gets the player camera/viewpoint
-- Performs a line trace forward to a maximum range
-- Ignores the gun and owning player during the trace
-- Spawns an impact effect when a valid hit occurs
-- Applies bullet damage to the hit actor
-
-This gave me practice with actor ownership, collision queries, trace channels, visual effects, and Unreal's damage pipeline.
-
-### Damage and Health
-
-The player character listens for `OnTakeAnyDamage` and reduces current health when hit. If health reaches zero, the character enters a dead state and disables capsule collision.
-
-This system is intentionally simple, but it creates a foundation for future work such as respawning, enemy damage feedback, death animations, and UI updates.
-
-### AI
-
-The enemy controller uses an assigned Behavior Tree asset and starts it on `BeginPlay`. The project includes enemy AI Blueprint assets and Blackboard/Behavior Tree files for AI behavior setup.
-
-## Project Structure
-
-```text
-SpaceShooter/
-├── Config/                 # Unreal project settings and input configuration
-├── Content/
-│   ├── BluePrints/          # Gameplay Blueprints, HUD, rifle, controller, AI
-│   ├── Characters/          # Character meshes, animations, and materials
-│   ├── Input/               # Enhanced Input assets
-│   └── Assets/              # Environment, particles, and shooter assets
-├── Source/
-│   └── SpaceShooter/
-│       ├── SpaceShooterCharacter.*
-│       ├── Gun.*
-│       ├── ShooterAI.*
-│       ├── HUDWidget.*
-│       ├── SpaceShooterGameMode.*
-│       └── SpaceShooterPlayerController.*
-├── SpaceShooter.uproject
-└── SpaceShooter.sln
-```
-
-## How to Run
-
-1. Install Unreal Engine 5.6.
-2. Open `SpaceShooter.uproject`.
-3. If prompted, rebuild project files.
-4. Open the project in Unreal Editor.
-5. Press Play in the editor.
-
-If opening from Visual Studio:
-
-1. Open `SpaceShooter.sln`.
-2. Select the `Development Editor` configuration.
-3. Build the solution.
-4. Launch the project through Unreal Editor.
+- Third-person player character
+- Player shooting system
+- Enemy AI using Behavior Trees and Blackboards
+- Enemy line-of-sight detection
+- Guard behavior with investigation logic
+- Enemy health and death handling
+- HUD health bar
+- HUD enemy counter
+- Separate player and enemy weapon setup support
 
 ## Controls
 
-The exact bindings are configured through Unreal Enhanced Input assets, but the project supports:
+- Move: `WASD`
+- Look: Mouse
+- Jump: Space
+- Shoot: Left Mouse Button
 
-- Move
-- Look / mouse look
-- Jump
-- Shoot
+## AI Behavior
+<img width="1142" height="632" alt="Screenshot 2026-07-21 132537" src="https://github.com/user-attachments/assets/af037f8d-03c2-464a-8d78-9bdf6d449728" />
 
-## What I Learned
+Enemies use a Behavior Tree to decide what to do:
 
-- How to combine Unreal C++ classes with Blueprint subclasses
-- How to bind gameplay actions using Enhanced Input
-- How to spawn and attach actors at runtime
-- How to perform camera-based line traces
-- How Unreal's damage system works at a basic level
-- How to connect Niagara effects to gameplay events
-- How AI controllers and Behavior Trees fit into an Unreal project
+- If the enemy can see the player, it updates the player location and attacks.
+- If the enemy loses sight of the player, it can investigate the last known location.
+- If no player is detected, the enemy can wait or return to its starting position.
 
-## Known Limitations
+The enemy state is managed through Blackboard keys such as:
 
-- The project is a prototype, not a complete game.
-- Enemy behavior is still early and would need more tuning.
-- The health/death flow is basic and does not yet include a full respawn or game-over loop.
-- UI feedback could be expanded for ammo, hit markers, health, and objectives.
+- `PlayerLocation`
+- `LastKnownPlayerLocation`
+- `StartLocation`
 
-## Future Improvements
+## HUD
 
-- Add enemy attacks and more complete combat behavior
-- Add ammo, reloads, and weapon variations
-- Improve HUD feedback for health and damage
-- Add player death/respawn flow
-- Add sound effects for shooting, impacts, and enemy reactions
-- Create a small objective-based level
-- Add more testing around damage, hit detection, and enemy behavior
+The HUD displays:
 
+- Player health
+- Number of enemies remaining
+
+Enemy count is tracked by the GameMode and updated when enemies die.
+
+## Project Structure
+
+Important C++ classes:
+
+- `ASpaceShooterCharacter`  
+  Handles player/enemy character health, movement, shooting, and death.
+
+- `AGun`  
+  Handles weapon firing, muzzle effects, hit detection, and damage.
+
+- `AShooterAI`  
+  AI controller for enemy behavior tree setup.
+
+- `UBTService_PlayerLocationIfSeen`  
+  Updates the blackboard when the enemy detects the player.
+
+- `UBTTaskNodeShootAtPlayer`  
+  Behavior Tree task used by enemies to shoot at the player.
+
+- `ASpaceShooterGameMode`  
+  Tracks enemies in the level and updates the remaining enemy count.
+
+- `UHUDWidget`  
+  Handles HUD updates such as health and enemies remaining.
+
+## Build Notes
+<img width="1145" height="626" alt="Screenshot 2026-07-21 132557" src="https://github.com/user-attachments/assets/df38d7be-5a56-439a-a134-9582e70ea621" />
+
+This project uses Unreal Engine 5.6.
+
+If C++ header files are changed, a full rebuild is recommended. Live Coding may not always update reflected Unreal types such as `UCLASS`, `UPROPERTY`, or `UFUNCTION` changes correctly.
+
+Recommended workflow:
+
+1. Stop Play-In-Editor.
+2. Compile or rebuild the project.
+3. Reopen or refresh Unreal Editor if needed.
+4. Compile and save related Blueprints.
+
+## Status
+
+This project is currently in development as a gameplay programming project.<img width="1147" height="625" alt="Screenshot 2026-07-21 132523" src="https://github.com/user-attachments/assets/2eef2130-30ad-4895-9375-578da5bb3fcd" />
