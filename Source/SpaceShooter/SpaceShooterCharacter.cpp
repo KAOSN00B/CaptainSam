@@ -11,7 +11,9 @@
 #include "Gun.h"
 #include "InputActionValue.h"
 #include "SpaceShooter.h"
+#include "SpaceShooterGameMode.h"
 #include "SpaceShooterPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 ASpaceShooterCharacter::ASpaceShooterCharacter()
 {
@@ -175,6 +177,16 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 			CurrentHealth = 0.0f;
 
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			if (!IsPlayerControlled())
+			{
+				ASpaceShooterGameMode* GameMode = Cast<ASpaceShooterGameMode>(UGameplayStatics::GetGameMode(this));
+				if (GameMode)
+				{
+					GameMode->NotifyEnemyDied(this);
+				}
+			}
+
 			DetachFromControllerPendingDestroy();
 
 
@@ -182,6 +194,7 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 		
 	}
 }
+
 
 void ASpaceShooterCharacter::Shoot()
 {

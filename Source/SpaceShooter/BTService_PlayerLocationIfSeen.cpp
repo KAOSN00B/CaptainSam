@@ -36,7 +36,7 @@ void UBTService_PlayerLocationIfSeen::TickNode(UBehaviorTreeComponent& OwnerComp
 
 	float Dot = FVector::DotProduct(EnemyForward, ToPlayer);
 	bool bPlayerIsInFront = Dot > 0.5f;
-	UE_LOG(LogTemp, Warning, TEXT("Dot: %f"), Dot);
+
 	if (OwnerController->LineOfSightTo(Player) && bPlayerIsInFront)
 	{
 		Blackboard->SetValueAsVector("PlayerLocation", Player->GetActorLocation());

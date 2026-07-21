@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ProgressBar.h"
+#include "Components/TextBlock.h"
 #include "HUDWidget.generated.h"
 
 /**
@@ -18,5 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidgetOptional))
 	UProgressBar* HealthBar;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidgetOptional))
+	UTextBlock* EnemiesRemainingText;
+
 	void SetHealthPercent(float NewPercent);
+	void SetEnemiesRemaining(int32 Count);
 };

@@ -118,10 +118,10 @@ public:
 	void OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 		class AController* InstigatedBy, AActor* DamageCauser);
 
+
 	UPROPERTY(EditAnywhere)
 	float MaxHealth = 100.0f;
 
-	
 	float CurrentHealth;
 
 	UPROPERTY(BlueprintReadOnly)

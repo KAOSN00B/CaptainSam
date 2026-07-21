@@ -49,6 +49,7 @@ public:
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
 
+	void SetEnemiesRemaining(int32 Count);
 
 
 };

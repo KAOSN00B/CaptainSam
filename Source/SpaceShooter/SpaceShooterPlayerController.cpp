@@ -6,7 +6,9 @@
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "SpaceShooter.h"
+#include "SpaceShooterGameMode.h"
 #include "Widgets/Input/SVirtualJoystick.h"
 
 void ASpaceShooterPlayerController::BeginPlay()
@@ -36,6 +38,11 @@ void ASpaceShooterPlayerController::BeginPlay()
 	if (HUDWidget)
 	{
 		HUDWidget->AddToViewport();
+
+		if (ASpaceShooterGameMode* GameMode = Cast<ASpaceShooterGameMode>(UGameplayStatics::GetGameMode(this)))
+		{
+			SetEnemiesRemaining(GameMode->GetEnemiesRemaining());
+		}
 	}
 }
 
@@ -63,6 +70,14 @@ void ASpaceShooterPlayerController::SetupInputComponent()
 				}
 			}
 		}
+	}
+}
+
+void ASpaceShooterPlayerController::SetEnemiesRemaining(int32 Count)
+{
+	if (HUDWidget)
+	{
+		HUDWidget->SetEnemiesRemaining(Count);
 	}
 }
 
