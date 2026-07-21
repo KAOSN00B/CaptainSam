@@ -1,4 +1,4 @@
-# SpaceShooter
+# Captain Sam
 
 SpaceShooter is a third-person shooter project built in Unreal Engine 5. The game features AI enemies, shooting mechanics, health, HUD feedback, and behavior tree driven enemy logic.
 
