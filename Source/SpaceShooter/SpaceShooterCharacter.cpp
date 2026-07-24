@@ -4,6 +4,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
@@ -13,6 +14,8 @@
 #include "SpaceShooter.h"
 #include "SpaceShooterGameMode.h"
 #include "SpaceShooterPlayerController.h"
+#include "ShooterAI.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 ASpaceShooterCharacter::ASpaceShooterCharacter()
@@ -46,6 +49,13 @@ ASpaceShooterCharacter::ASpaceShooterCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	InvestigateIconWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Investigate Icon"));
+	InvestigateIconWidget->SetupAttachment(RootComponent);
+	InvestigateIconWidget->SetRelativeLocation(FVector(0.f, 0.f, 130.f));
+	InvestigateIconWidget->SetDrawSize(FVector2D(64.f, 64.f));
+	InvestigateIconWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	InvestigateIconWidget->SetVisibility(false);
 }
 
 void ASpaceShooterCharacter::BeginPlay()
@@ -55,6 +65,7 @@ void ASpaceShooterCharacter::BeginPlay()
 	CurrentHealth = MaxHealth;
 
 	OnTakeAnyDamage.AddDynamic(this, &ASpaceShooterCharacter::OnDamageTaken);
+	SetInvestigateIconVisible(false);
 
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
@@ -168,6 +179,23 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 
 	if (IsAlive)
 	{
+		if (!IsPlayerControlled())
+		{
+			AShooterAI* DamagedEnemy = Cast<AShooterAI>(GetController());
+			if (DamagedEnemy)
+			{
+				UBlackboardComponent* Blackboard = DamagedEnemy->GetBlackboardComponent();
+				APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+
+				if (Blackboard && PlayerPawn)
+				{
+					Blackboard->SetValueAsBool("IsAlert", false);
+					Blackboard->ClearValue("PlayerLocation");
+					Blackboard->SetValueAsVector("LastKnownPlayerLocation", PlayerPawn->GetActorLocation());
+				}
+			}
+		}
+
 		CurrentHealth -= Damage;
 		UpdateHUD();
 		if (CurrentHealth <= 0.0f)
@@ -175,6 +203,7 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 
 			IsAlive = false;
 			CurrentHealth = 0.0f;
+			SetInvestigateIconVisible(false);
 
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
@@ -188,7 +217,6 @@ void ASpaceShooterCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, c
 			}
 
 			DetachFromControllerPendingDestroy();
-
 
 		}
 		
@@ -205,6 +233,14 @@ void ASpaceShooterCharacter::Shoot()
 	else
 	{
 		UE_LOG(LogSpaceShooter, Warning, TEXT("Shoot called, but Gun is null."));
+	}
+}
+
+void ASpaceShooterCharacter::SetInvestigateIconVisible(bool bVisible)
+{
+	if (InvestigateIconWidget)
+	{
+		InvestigateIconWidget->SetVisibility(bVisible);
 	}
 }
 

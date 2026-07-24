@@ -30,18 +30,39 @@ void UBTService_PlayerLocationIfSeen::TickNode(UBehaviorTreeComponent& OwnerComp
 	}
 
 	FVector ToPlayer = Player->GetActorLocation() - EnemyPawn->GetActorLocation();
-	ToPlayer.Normalize();
+	if (!ToPlayer.Normalize())
+	{
+		return;
+	}
 
 	FVector EnemyForward = EnemyPawn->GetActorForwardVector();
 
 	float Dot = FVector::DotProduct(EnemyForward, ToPlayer);
 	bool bPlayerIsInFront = Dot > 0.5f;
+	bool bIsAlert = Blackboard->GetValueAsBool("IsAlert");
 
-	if (OwnerController->LineOfSightTo(Player) && bPlayerIsInFront)
+	bool bHasLineOfSight = OwnerController->LineOfSightTo(Player);
+	bool bCanSeePlayer = bHasLineOfSight && bPlayerIsInFront;
+
+	float DistanceToPlayer = FVector::Dist(Player->GetActorLocation(), EnemyPawn->GetActorLocation());
+	bool bPlayerIsInShootingRange = DistanceToPlayer <= 1000.0f;
+
+	bool bCanShootPlayer = bHasLineOfSight && bPlayerIsInShootingRange;
+	Blackboard->SetValueAsBool("CanShootPlayer", bCanShootPlayer);
+
+	if (bIsAlert || bCanSeePlayer)
 	{
 		Blackboard->SetValueAsVector("PlayerLocation", Player->GetActorLocation());
 		Blackboard->SetValueAsVector("LastKnownPlayerLocation", Player->GetActorLocation());
-		OwnerController->SetFocus(Player);
+
+		if (bHasLineOfSight)
+		{
+			OwnerController->SetFocus(Player);
+		}
+		else
+		{
+			OwnerController->ClearFocus(EAIFocusPriority::Gameplay);
+		}
 	}
 	else
 	{

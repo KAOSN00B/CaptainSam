@@ -2,6 +2,7 @@
 
 
 #include "BTTaskNodeShootAtPlayer.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "ShooterAI.h"
 
 UBTTaskNodeShootAtPlayer::UBTTaskNodeShootAtPlayer()
@@ -11,23 +12,28 @@ UBTTaskNodeShootAtPlayer::UBTTaskNodeShootAtPlayer()
 
 EBTNodeResult::Type UBTTaskNodeShootAtPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	Super::ExecuteTask(OwnerComp, NodeMemory);
+    Super::ExecuteTask(OwnerComp, NodeMemory);
 
-	AShooterAI* OwnerController = Cast<AShooterAI>(OwnerComp.GetAIOwner());
+    AShooterAI* OwnerController = Cast<AShooterAI>(OwnerComp.GetAIOwner());
 
-	if (OwnerController)
-	{
-		ASpaceShooterCharacter* OwnerCharacter = OwnerController->MyCharacter;
-		ASpaceShooterCharacter* PlayerCharacter = OwnerController->PlayerCharacter;
+    if (OwnerController)
+    {
+        UBlackboardComponent* Blackboard = OwnerController->GetBlackboardComponent();
 
-		if(OwnerCharacter && PlayerCharacter && PlayerCharacter->IsAlive)
-		{
-			// Call the Shoot function on the OwnerCharacter
-			OwnerCharacter->Shoot();
+        if (!Blackboard || !Blackboard->GetValueAsBool("CanShootPlayer"))
+        {
+            return EBTNodeResult::Failed;
+        }
 
-			return EBTNodeResult::Succeeded;
-		}
-		
-	}
-	return EBTNodeResult::Failed;
+        ASpaceShooterCharacter* OwnerCharacter = OwnerController->MyCharacter;
+        ASpaceShooterCharacter* PlayerCharacter = OwnerController->PlayerCharacter;
+
+        if (OwnerCharacter && PlayerCharacter && PlayerCharacter->IsAlive)
+        {
+            OwnerCharacter->Shoot();
+            return EBTNodeResult::Succeeded;
+        }
+    }
+
+    return EBTNodeResult::Failed;
 }

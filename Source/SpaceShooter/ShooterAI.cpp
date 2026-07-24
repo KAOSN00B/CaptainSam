@@ -4,6 +4,7 @@
 #include "ShooterAI.h"
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "SpaceShooterGameMode.h"
 
 void AShooterAI::BeginPlay()
 {
@@ -14,21 +15,6 @@ void AShooterAI::BeginPlay()
 void AShooterAI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	/*APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	if (PlayerPawn)
-	{
-		
-		if (LineOfSightTo(PlayerPawn))
-		{
-			SetFocus(PlayerPawn);
-			MoveToActor(PlayerPawn, AcceptanceRadius);
-		}
-		else
-		{
-			ClearFocus(EAIFocusPriority::Gameplay);
-		}
-
-	}*/
 
 }
 void AShooterAI::StartBehaviorTree(ASpaceShooterCharacter* Player)
@@ -36,6 +22,7 @@ void AShooterAI::StartBehaviorTree(ASpaceShooterCharacter* Player)
 
 	if (EnemyAIBehaviorTree)
 	{
+
 		MyCharacter = Cast<ASpaceShooterCharacter>(GetPawn());
 		if (Player)
 		{
@@ -47,12 +34,44 @@ void AShooterAI::StartBehaviorTree(ASpaceShooterCharacter* Player)
 		UBlackboardComponent* MyBlackboard = GetBlackboardComponent();
 		if(MyBlackboard && MyCharacter)
 		{
+			MyBlackboard->SetValueAsBool("IsAlert", false);
 			MyBlackboard->SetValueAsVector("StartLocation", MyCharacter->GetActorLocation());
 			MyBlackboard->ClearValue("PlayerLocation");
 			MyBlackboard->ClearValue("LastKnownPlayerLocation");
-			
-		}
-	}
 
+		}
+
+	}
 }
 
+void AShooterAI::SetPlayerChase(bool SetAlert)
+{
+	UBlackboardComponent* MyBlackboard = GetBlackboardComponent();
+
+	if (!MyBlackboard)
+	{
+		return;
+	}
+
+	MyBlackboard->SetValueAsBool("IsAlert", SetAlert);
+
+	if (SetAlert && PlayerCharacter)
+	{
+		MyBlackboard->SetValueAsVector("PlayerLocation", PlayerCharacter->GetActorLocation());
+		MyBlackboard->SetValueAsVector("LastKnownPlayerLocation", PlayerCharacter->GetActorLocation());
+	}
+}
+
+void AShooterAI::SetPlayerInvestigate()
+{
+	UBlackboardComponent* MyBlackboard = GetBlackboardComponent();
+
+	if (!MyBlackboard || !PlayerCharacter)
+	{
+		return;
+	}
+
+	MyBlackboard->SetValueAsBool("IsAlert", false);
+	MyBlackboard->ClearValue("PlayerLocation");
+	MyBlackboard->SetValueAsVector("LastKnownPlayerLocation", PlayerCharacter->GetActorLocation());
+}

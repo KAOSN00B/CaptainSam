@@ -10,6 +10,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
+class UWidgetComponent;
 class AGun;
 struct FInputActionValue;
 
@@ -62,8 +63,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<AGun> Gun;
 
-
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> InvestigateIconWidget;
 
 
 public:
@@ -117,6 +118,9 @@ public:
 	UFUNCTION()
 	void OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 		class AController* InstigatedBy, AActor* DamageCauser);
+
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void SetInvestigateIconVisible(bool bVisible);
 
 
 	UPROPERTY(EditAnywhere)

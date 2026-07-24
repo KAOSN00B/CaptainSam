@@ -31,7 +31,7 @@ void ASpaceShooterGameMode::BeginPlay()
 			RegisterEnemy(EnemyCharacter);
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Enemies registered: %d"), EnemiesInLevel.Num());
+
 	if (ASpaceShooterPlayerController* PlayerController = Cast<ASpaceShooterPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
 	{
 		PlayerController->SetEnemiesRemaining(GetEnemiesRemaining());
@@ -57,9 +57,61 @@ void ASpaceShooterGameMode::NotifyEnemyDied(ASpaceShooterCharacter* Enemy)
 	{
 		PlayerController->SetEnemiesRemaining(GetEnemiesRemaining());
 	}
+
+	if (!bIsAlarmSoundPlaying && GetEnemiesRemaining() <= 3)
+	{
+		bIsAlarmSoundPlaying = true;
+
+		if (AlarmSound)
+		{
+			UGameplayStatics::PlaySound2D(this, AlarmSound);
+
+		}
+
+		TriggerPlayerInvestigate();
+		
+
+	}
 }
 
 int32 ASpaceShooterGameMode::GetEnemiesRemaining() const
 {
 	return EnemiesInLevel.Num();
+}
+
+void ASpaceShooterGameMode::TriggerPlayerChase(bool TriggerChase) const
+{
+	for (ASpaceShooterCharacter* Enemy : EnemiesInLevel)
+	{
+		if (!Enemy)
+		{
+			continue;
+		}
+		if (Enemy)
+		{
+			AShooterAI* ShooterAI = Cast<AShooterAI>(Enemy->GetController());
+			if (ShooterAI)
+			{
+				ShooterAI->SetPlayerChase(TriggerChase);
+			}
+		}
+	}
+
+}
+
+void ASpaceShooterGameMode::TriggerPlayerInvestigate() const
+{
+	for (ASpaceShooterCharacter* Enemy : EnemiesInLevel)
+	{
+		if (!Enemy)
+		{
+			continue;
+		}
+
+		AShooterAI* ShooterAI = Cast<AShooterAI>(Enemy->GetController());
+		if (ShooterAI)
+		{
+			ShooterAI->SetPlayerInvestigate();
+		}
+	}
 }

@@ -33,5 +33,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void StartBehaviorTree(ASpaceShooterCharacter* Player);
+
+	void SetPlayerChase(bool SetAlert);
+
+	void SetPlayerInvestigate();
 	
 };
